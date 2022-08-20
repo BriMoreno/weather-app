@@ -11,7 +11,28 @@
 
     <body>
         <header class="hero is-primary ">
-            <h1>Weather Dashboard</h1>
+            <h1 class="title is-2">Weather Dashboard</h1>
         </header>
+<!-- user input for city to get weather -->
+        <div class="container is-fluid">
+            <div class = "column">
+                <h4 class="subtitle">Search for a City</h4>
+                <div>
+                    <input
+                    id= "city-name"
+                    type= "text"
+                    class= "bulma-control-mixin"
+                    placeholder= "city,state"
+                    aria-label= "Enter a city"
+                    />
+                    <div class = "input">
+                        <button class= "button is-primary" type="button" id="searchBtn">
+                            <i class = "fas fa-search" ></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </body>
 </html>
