@@ -4,12 +4,16 @@
     --bgcolor: #768948;
     --bordercolor: #34623F;
     --buttoncolor:#607744;
-    --accentcolor: #B39C4D;
+    --accentcolor: #b59c4a;
+    --light: rgb(171, 176, 140); 
     --font: "Oswald", sans-serif;
 }
-
+body {
+    background-image: linear-gradient(to bottom right, var(--light), var(--accentcolor));
+}
 .hero{
     background-color: var(--bgcolor);
+    font-weight: bolder;
     font-family: var(--font);
     color:var(--textcolor);
     border-bottom:solid 5px var(--bordercolor);
@@ -18,9 +22,36 @@
     text-shadow: 2px 2px var(--buttoncolor);
 }
 
-.subtitle{
+h4 {
     font-family: var(--font);
     color:var(--textcolor);
-    border-bottom:solid 5px var(--bordercolor);
+    font-size: larger;
+    text-shadow: 2px 2px var(--buttoncolor);
+}
 
+.column{
+    font-family: var(--font);
+    color:var(--textcolor);
+    font-size: large;
+}
+
+.button{
+    background-color: var(--buttoncolor);
+    font-family: var(--font);
+    color:var(--textcolor);
+    font-size: larger;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.button:hover {
+    background-color: #1E2F23;
+    color:white;
+}
+
+.button:active {
+    background-color: var(--buttoncolor);
+    color:var(--textcolor);
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
