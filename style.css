@@ -1,0 +1,26 @@
+/* adding variables for colors and font*/
+:root {
+    --textcolor: #1E2F23;
+    --bgcolor: #768948;
+    --bordercolor: #34623F;
+    --buttoncolor:#607744;
+    --accentcolor: #B39C4D;
+    --font: "Oswald", sans-serif;
+}
+
+.hero{
+    background-color: var(--bgcolor);
+    font-family: var(--font);
+    color:var(--textcolor);
+    border-bottom:solid 5px var(--bordercolor);
+    display:block;
+    padding-left: 45px;
+    text-shadow: 2px 2px var(--buttoncolor);
+}
+
+.subtitle{
+    font-family: var(--font);
+    color:var(--textcolor);
+    border-bottom:solid 5px var(--bordercolor);
+
+}
