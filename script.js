@@ -79,10 +79,29 @@ function initPage() {
                             const presentDay = presentDate.getDate();
                             const presentMonth = presentDate.getMonth()+ 1;
                             const presentYear = presentDate.getFullYear();
-                            const forecast
+                            const forecastDay = document.createElement("p");
+                            forecastDay.setAttribute("class", "mt-3 mb-0 daily-report")
+                            forecastDay.innerHTML = presentMonth +"/"+ presentYear;
+                            forecast[i].append(forecastDay);
+
+                            //for images
+                            const weather_forecast = document.createElement("img");
+                            weather_forecast.setAttribute("src", "https://openweathermap.org/img/wn/" + response.data.list[forecastEl].weather[0].icon + "@2x.png");
+                            weather_forecast.setAttribute("alt", response.data.list[forecastEl].weather[0].description);
+                            forecast[i].append(weather_forecast);
+
+                            const temp_forecast = document.createElement("p");
+                            temp_forecast.innerHTML = "Temperature: " + k2f(response.data.list[forecastEl].main.temp) + "&#176F";
+                            forecast[i].append(temp_forecast);
+
+                            const humid_forecast = document.createElement("p");
+                            humid_forecast.innerHTML = "Humidity: " + response.data.list[forecastEl].main.humid + "%";
+                            forecast[i].append(humid_forecast);
+
                         }
                     })
 
-            })
+            });
     }
+    
 }
