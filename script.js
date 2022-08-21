@@ -34,7 +34,8 @@ function initPage() {
                 //display weather data
                 let pic = response.data.weather[0].icon;
                 pic.setAttribute("alt", "https://openweathermap.org/img/wn/" + pic + "@2x.png");
-                let pic = response.data.weather[0].description;
+                pic.setAttribute("alt", response.data.weather[0].description);
+
                 temp.innerHTML = "Temperature: " + k2f(response.data.main.temp) + "&#176F";
                 humid.innerHTML = "Humidity: "+ response.data.main.humidity+ " %";
                 wind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
@@ -62,7 +63,25 @@ function initPage() {
                         currentUv.append(uv_index);
                     });
                 //get the weekly forecast
-                
+                let locationID = response.data.id;
+                let theForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
+
+                axios.get(theForecastURL)
+                    .then(function (response){
+                        weeklyReport.classList.remove("is-hidden");
+
+                        const forecast = document.querySelectorAll(".forecast");
+
+                        for (i=0; i < forecast.length; i++){
+                            forecast[i].innerHTML="";
+                            const forecastEl = i *8 + 4;
+                            const presentDate = new Date(response.data.list[forecastEl].dt * 1000);
+                            const presentDay = presentDate.getDate();
+                            const presentMonth = presentDate.getMonth()+ 1;
+                            const presentYear = presentDate.getFullYear();
+                            const forecast
+                        }
+                    })
 
             })
     }
