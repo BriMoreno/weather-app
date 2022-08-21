@@ -40,6 +40,29 @@ function initPage() {
                 wind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
 
                 //display uv data
+                let lat = response.data.coord.lat;
+                let lon = response.data.coord.lon;
+                let uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&cnt=1";
+                axios.get(uvUrl)
+                    .then(function(response){
+                        let uv_index = document.createElement("span");
+
+                        if(response.data[0].value < 4) {
+                            uv_index.setAttribute("class", "has-text-success");
+                        }
+                        else if (response.data[0].value < 8) {
+                            uv_index.setAttribute("class", "has-text-warning");
+                        }
+                        else {
+                            uv_index.setAttribute("class", "has-text-danger");
+                        }
+                        console.log(response.data[0].value)
+                        uv_index.innerHTML = response.data[0].value;
+                        currentUv.innerHTML = "UV Index:";
+                        currentUv.append(uv_index);
+                    });
+                //get the weekly forecast
+                
 
             })
     }
