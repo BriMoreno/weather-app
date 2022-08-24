@@ -1,7 +1,8 @@
-function initPage() {
+function weatherApp() {
 //making variables based off of ids in html   
     const cityNameEL = document.getElementById("city-name");
     const searchBtn = document.getElementById("searchBtn");
+    const clearHistory = document.getElementById("clearHistory");
     const city = document.getElementById("city");
     const pic = document.getElementById("pic-weather");
     const temp = document.getElementById("temp");
@@ -11,7 +12,7 @@ function initPage() {
     const historyEl = document.getElementById("history");
     const weeklyReport = document.getElementById("weekly-header");
     const dailyReport = document.getElementById("forecast-today");
-    let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+    let saveHistory = JSON.parse(localStorage.getItem("search")) || [];
     
 //the open weather api key
     const APIKey = "458376d81dc7ced16df42de23d9f7cb5";
@@ -32,11 +33,11 @@ function initPage() {
                 //display date
                 city.innerHTML = response.data.name + "( "+ month + "/ " + day + "/ " + year +" )";
                 //display weather data
-                let pic = response.data.weather[0].icon;
-                pic.setAttribute("alt", "https://openweathermap.org/img/wn/" + pic + "@2x.png");
+                let WeatherIcon = response.data.weather[0].icon;
+                pic.setAttribute("alt", "https://openweathermap.org/img/wn/" + WeatherIcon + "@2x.png");
                 pic.setAttribute("alt", response.data.weather[0].description);
 
-                temp.innerHTML = "Temperature: " + k2f(response.data.main.temp) + "&#176F";
+                temp.innerHTML = "Temperature: " + fahrenheit(response.data.main.temp) + "&#176F";
                 humid.innerHTML = "Humidity: "+ response.data.main.humidity+ " %";
                 wind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
 
@@ -64,7 +65,7 @@ function initPage() {
                     });
                 //get the weekly forecast
                 let locationID = response.data.id;
-                let theForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
+                let theForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + locationID + "&appid=" + APIKey;
 
                 axios.get(theForecastURL)
                     .then(function (response){
@@ -80,7 +81,7 @@ function initPage() {
                             const presentMonth = presentDate.getMonth()+ 1;
                             const presentYear = presentDate.getFullYear();
                             const forecastDay = document.createElement("p");
-                            forecastDay.setAttribute("class", "mt-3 mb-0 daily-report")
+                            presentDay.setAttribute("class", "mt-3 mb-0 daily-report")
                             forecastDay.innerHTML = presentMonth +"/"+ presentYear;
                             forecast[i].append(forecastDay);
 
@@ -91,7 +92,7 @@ function initPage() {
                             forecast[i].append(weather_forecast);
 
                             const temp_forecast = document.createElement("p");
-                            temp_forecast.innerHTML = "Temperature: " + k2f(response.data.list[forecastEl].main.temp) + "&#176F";
+                            temp_forecast.innerHTML = "Temperature: " + fahrenheit(response.data.list[forecastEl].main.temp) + "&#176F";
                             forecast[i].append(temp_forecast);
 
                             const humid_forecast = document.createElement("p");
@@ -104,4 +105,41 @@ function initPage() {
             });
     }
     
+    //store search history
+    searchBtn.addEventListener("click", function (){
+        const userInput = cityNameEL.value;
+        weather(userInput);
+        saveHistory.push(userInput);
+        localStorage.setItem("search", JSON.stringify(saveHistory));
+        displayHistory();     
+    })
+    //clear history
+    clearHistory.addEventListener("click", function(){
+        localStorage.clear();
+        saveHistory = [];
+        displayHistory();
+    })
+    //kelvin to fahrenheit formula
+    function fahrenheit(kelvin) {
+        return Math.floor((kelvin - 273.15) * 1.8 +32);
+    }
+    //show history
+    function displayHistory() {
+        historyEl.innerHTML = "";
+        const searchHistory = document.createElement("input");
+        searchHistory.setAttribute("type", "text");
+        searchHistory.setAttribute("readonly", true);
+        searchHistory.setAttribute("class", "control block $grey-lighter")
+        searchHistory.setAttribute("value", saveHistory[1]);
+
+        searchHistory.addEventListener("click", function (){
+            weather(searchHistory.value);
+        })
+        historyEl.append(searchHistory);
+    }
+    displayHistory();
+    if(saveHistory.length > 0) {
+        weather(saveHistory[saveHistory.length -1]);
+    }
 }
+weatherApp();
