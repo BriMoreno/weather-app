@@ -8,7 +8,13 @@
     --light: rgb(171, 176, 140); 
     --font: "Oswald", sans-serif;
 }
-body {
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
     background-image: linear-gradient(to bottom right, var(--light), var(--accentcolor));
 }
 .hero{

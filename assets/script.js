@@ -17,7 +17,7 @@ function weatherApp() {
 //the open weather api key
     const APIKey = "458376d81dc7ced16df42de23d9f7cb5";
 
-    function weather(cityname) {
+    function weatherResults(cityname) {
         //request weather from api
         let getURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "&appid=" + APIKey;
         axios.get(getURL)
@@ -34,7 +34,7 @@ function weatherApp() {
                 city.innerHTML = response.data.name + "( "+ month + "/ " + day + "/ " + year +" )";
                 //display weather data
                 let WeatherIcon = response.data.weather[0].icon;
-                pic.setAttribute("alt", "https://openweathermap.org/img/wn/" + WeatherIcon + "@2x.png");
+                pic.setAttribute("src", "https://openweathermap.org/img/wn/" + WeatherIcon + "@2x.png");
                 pic.setAttribute("alt", response.data.weather[0].description);
 
                 presentTemp.innerHTML = "Temperature: " + fahrenheit(response.data.main.temp) + "&#176F";
@@ -76,13 +76,13 @@ function weatherApp() {
                         for (i=0; i < forecast.length; i++){
                             forecast[i].innerHTML="";
                             const forecastEl = i *8 + 4;
-                            const presentDate = new Date(response.data.list[forecastEl].dt * 1000);
+                            const presentDate = new Date(response.data.list[forecastEl].dt * 1000); //converting time format to GMT
                             const presentDay = presentDate.getDate();
                             const presentMonth = presentDate.getMonth()+ 1;
                             const presentYear = presentDate.getFullYear();
                             const forecastDay = document.createElement("p");
                             forecastDay.setAttribute("class", "mt-3 mb-0 daily-report")
-                            forecastDay.innerHTML = presentMonth +"/"+ presentYear;
+                            forecastDay.innerHTML = presentMonth +"/"+ presentDay +"/" + presentYear;
                             forecast[i].append(forecastDay);
 
                             //for images
@@ -108,7 +108,7 @@ function weatherApp() {
     //store search history
     searchBtn.addEventListener("click", function (){
         const userInput = cityNameEL.value;
-        weather(userInput);
+        weatherResults(userInput);
         saveHistory.push(userInput);
         localStorage.setItem("search", JSON.stringify(saveHistory));
         displayHistory();     
@@ -134,14 +134,14 @@ function weatherApp() {
             searchHistory.setAttribute("value", saveHistory[i]);
 
             searchHistory.addEventListener("click", function (){    
-                weather(searchHistory.value);
+                weatherResults(searchHistory.value);
              })
              historyEl.append(searchHistory);
         }
     }
     displayHistory();
     if(saveHistory.length > 0) {
-        weather(saveHistory[saveHistory.length -1]);
+        weatherResults(saveHistory[saveHistory.length -1]);
     }
 }
 weatherApp();
