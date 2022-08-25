@@ -2,12 +2,12 @@ function weatherApp() {
 //making variables based off of ids in html   
     const cityNameEL = document.getElementById("city-name");
     const searchBtn = document.getElementById("searchBtn");
-    const clearHistory = document.getElementById("clearHistory");
+    const clearHistory = document.getElementById("clear");
     const city = document.getElementById("city");
     const pic = document.getElementById("pic-weather");
-    const temp = document.getElementById("temp");
-    const humid = document.getElementById("humid");
-    const wind = document.getElementById("wind");
+    const presentTemp = document.getElementById("temp");
+    const presentHumid = document.getElementById("humid");
+    const presentWind = document.getElementById("wind");
     const currentUv = document.getElementById("UV-speed");
     const historyEl = document.getElementById("history");
     const weeklyReport = document.getElementById("weekly-header");
@@ -20,16 +20,16 @@ function weatherApp() {
     function weather(cityname) {
         //request weather from api
         let getURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityname + "&appid=" + APIKey;
-        axios.get(queryURL)
+        axios.get(getURL)
 
             .then(function(response) {
                 dailyReport.classList.remove("is-hidden");
 
                 //get response to display
                 const present = new Date(response.data.dt * 1000);
-                const day = currentDate.getDate();
-                const month = currentDate.getMonth() + 1;
-                const year = currentDate.getFullYear();
+                const day = present.getDate();
+                const month = present.getMonth() + 1;
+                const year = present.getFullYear();
                 //display date
                 city.innerHTML = response.data.name + "( "+ month + "/ " + day + "/ " + year +" )";
                 //display weather data
@@ -37,9 +37,9 @@ function weatherApp() {
                 pic.setAttribute("alt", "https://openweathermap.org/img/wn/" + WeatherIcon + "@2x.png");
                 pic.setAttribute("alt", response.data.weather[0].description);
 
-                temp.innerHTML = "Temperature: " + fahrenheit(response.data.main.temp) + "&#176F";
-                humid.innerHTML = "Humidity: "+ response.data.main.humidity+ " %";
-                wind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
+                presentTemp.innerHTML = "Temperature: " + fahrenheit(response.data.main.temp) + "&#176F";
+                presentHumid.innerHTML = "Humidity: "+ response.data.main.humidity+ " %";
+                presentWind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
 
                 //display uv data
                 let lat = response.data.coord.lat;
@@ -81,7 +81,7 @@ function weatherApp() {
                             const presentMonth = presentDate.getMonth()+ 1;
                             const presentYear = presentDate.getFullYear();
                             const forecastDay = document.createElement("p");
-                            presentDay.setAttribute("class", "mt-3 mb-0 daily-report")
+                            forecastDay.setAttribute("class", "mt-3 mb-0 daily-report")
                             forecastDay.innerHTML = presentMonth +"/"+ presentYear;
                             forecast[i].append(forecastDay);
 
@@ -126,16 +126,18 @@ function weatherApp() {
     //show history
     function displayHistory() {
         historyEl.innerHTML = "";
-        const searchHistory = document.createElement("input");
-        searchHistory.setAttribute("type", "text");
-        searchHistory.setAttribute("readonly", true);
-        searchHistory.setAttribute("class", "control block $grey-lighter")
-        searchHistory.setAttribute("value", saveHistory[1]);
+        for(let i = 0; i < saveHistory.length;i++) {
+            const searchHistory = document.createElement("input");
+            searchHistory.setAttribute("type", "text");
+            searchHistory.setAttribute("readonly", true);
+            searchHistory.setAttribute("class", "control block $grey-lighter")
+            searchHistory.setAttribute("value", saveHistory[i]);
 
-        searchHistory.addEventListener("click", function (){
-            weather(searchHistory.value);
-        })
-        historyEl.append(searchHistory);
+            searchHistory.addEventListener("click", function (){    
+                weather(searchHistory.value);
+             })
+             historyEl.append(searchHistory);
+        }
     }
     displayHistory();
     if(saveHistory.length > 0) {
