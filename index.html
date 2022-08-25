@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
         
         <link rel="stylesheet" href="./assets/style.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
 
@@ -45,7 +44,7 @@
                 <div class="column">
                     <div class = "column is-hidden" id="forecast-today">
                         <div class = "card">
-                            <h2 id="city-input" class="city"></h2>
+                            <h2 id="city" class="city"></h2>
                             <img id="pic-weather" alt="picture of weather details"/>
                             <p id="temp"></p>
                             <p id="humid"></p>
@@ -57,7 +56,7 @@
 <!--Boxes to show weekly forcast-->
                 <div class="column is-hidden" id="weekly-header">
                     <div class="column">
-                        <h3>Weekly Forecast</h3>
+                        <h1>Weekly Forecast</h1>
                     </div>
                 </div>
                 <div class="column">
@@ -71,7 +70,7 @@
         </div>
 <!--linked the JS-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script scr="./assets/script.js"></script>
+    <script src="./assets/script.js"></script>
        
     </body>
 </html>

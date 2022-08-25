@@ -8,7 +8,7 @@ function weatherApp() {
     const presentTemp = document.getElementById("temp");
     const presentHumid = document.getElementById("humid");
     const presentWind = document.getElementById("wind");
-    const currentUv = document.getElementById("UV-speed");
+    const currentUv = document.getElementById("UV-index");
     const historyEl = document.getElementById("history");
     const weeklyReport = document.getElementById("weekly-header");
     const dailyReport = document.getElementById("forecast-today");
@@ -37,7 +37,7 @@ function weatherApp() {
                 pic.setAttribute("src", "https://openweathermap.org/img/wn/" + WeatherIcon + "@2x.png");
                 pic.setAttribute("alt", response.data.weather[0].description);
 
-                presentTemp.innerHTML = "Temperature: " + fahrenheit(response.data.main.temp) + "&#176F";
+                presentTemp.innerHTML = "Temperature: " +fahrenheit(response.data.main.temp) + "°F";
                 presentHumid.innerHTML = "Humidity: "+ response.data.main.humidity+ " %";
                 presentWind.innerHTML = "Wind Speed: " + response.data.wind.speed + " MPH";
 
@@ -47,7 +47,7 @@ function weatherApp() {
                 let uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&cnt=1";
                 axios.get(uvUrl)
                     .then(function(response){
-                        let uv_index = document.createElement("span");
+                        let uv_index = document.createElement("p");
 
                         if(response.data[0].value < 4) {
                             uv_index.setAttribute("class", "has-text-success");
@@ -58,7 +58,6 @@ function weatherApp() {
                         else {
                             uv_index.setAttribute("class", "has-text-danger");
                         }
-                        console.log(response.data[0].value)
                         uv_index.innerHTML = response.data[0].value;
                         currentUv.innerHTML = "UV Index:";
                         currentUv.append(uv_index);
@@ -81,7 +80,7 @@ function weatherApp() {
                             const presentMonth = presentDate.getMonth()+ 1;
                             const presentYear = presentDate.getFullYear();
                             const forecastDay = document.createElement("p");
-                            forecastDay.setAttribute("class", "mt-3 mb-0 daily-report")
+                            forecastDay.setAttribute("class", "mt-3 mb-3 daily-report")
                             forecastDay.innerHTML = presentMonth +"/"+ presentDay +"/" + presentYear;
                             forecast[i].append(forecastDay);
 
@@ -92,13 +91,16 @@ function weatherApp() {
                             forecast[i].append(weather_forecast);
 
                             const temp_forecast = document.createElement("p");
-                            temp_forecast.innerHTML = "Temperature: " + fahrenheit(response.data.list[forecastEl].main.temp) + "&#176F";
+                            temp_forecast.innerHTML = "Temperature: " + fahrenheit(response.data.list[forecastEl].main.temp) + "°F";
                             forecast[i].append(temp_forecast);
 
                             const humid_forecast = document.createElement("p");
-                            humid_forecast.innerHTML = "Humidity: " + response.data.list[forecastEl].main.humid + "%";
+                            humid_forecast.innerHTML = "Humidity: " + response.data.list[forecastEl].main.humidity + "%";
                             forecast[i].append(humid_forecast);
 
+                            const wind_forecast = document.createElement("p");
+                            wind_forecast.innerHTML = "Wind Speed: " + response.data.list[forecastEl].wind.speed + " MPH";
+                            forecast[i].append(wind_forecast);   
                         }
                     })
 
