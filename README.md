@@ -23,3 +23,5 @@ THEN I am again presented with current and future conditions for that city
 
 ## Deployment
 https://brimoreno.github.io/weather-app/
+
+![](Weather-Dashboard.gif)
