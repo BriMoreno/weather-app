@@ -25,3 +25,6 @@ THEN I am again presented with current and future conditions for that city
 https://brimoreno.github.io/weather-app/
 
 ![](Weather-Dashboard.gif)
+
+## Works Cited
+https://nordicapis.com/how-to-build-an-api-driven-weather-app/
